@@ -72,6 +72,7 @@
                     <v-checkbox
                       v-if="!todo.done"
                       v-model="todo.done"
+                      @change="completeTodo(todo.id)"
                       :dark="isDark"
                     ></v-checkbox>
                   </v-list-tile-action>
@@ -131,7 +132,6 @@
         })
         .then(res => res.json())
         .then(({todo}) => {
-
           this.todos.push(todo)
           this.todoTitle = ''
         })
@@ -139,6 +139,20 @@
       },
       removeTodo(id) {
         this.todos = this.todos.filter(t => t.id !== id)
+      },
+      completeTodo(id) {
+        fetch('/api/todo/' + id, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({done: true})
+        })
+        .then(res => res.json())
+        .then(({todo}) => {
+          const index = this.todos.findIndex(item => item.id === todo.id)
+
+          this.todos[index].updatedAt = todo.updatedAt
+        })
+        .catch(error => console.log(error))
       }
     },
     filters: {
