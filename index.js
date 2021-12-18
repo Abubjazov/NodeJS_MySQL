@@ -9,6 +9,7 @@ const PORT = process.env.PORT
 const todoRoutes = require('./routes/todo')
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
 
 app.use('/api/todo', todoRoutes)
 
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
 
 async function start() {
     try {
-        await sequelize.sync()
+        await sequelize.sync() //{ force: true }
 
         app.listen(PORT, () => {
             console.log(`Server is running on PORT: ${PORT}`)
