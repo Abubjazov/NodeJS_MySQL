@@ -110,6 +110,14 @@
         todos: []
       }
     },
+    created() {
+      fetch('/api/todo', {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(todos => this.todos = todos)
+      .catch(error = console.log(error))
+    },
     methods: {
       addTodo() {
         const title = this.todoTitle.trim()
