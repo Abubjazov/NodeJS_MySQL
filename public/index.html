@@ -162,15 +162,27 @@
           this.todoTitle = ''
         })
         .catch(e => console.log(e))
-    },
+      },
 
-      // removeTodo(id) {
-      //   fetch('/api/todo/' + id, {
-      //     method: 'DELETE',
-      //   })
-      //   .then(() => this.todos = this.todos.filter(t => t.id !== id))
-      //   .catch(error => console.log(error))
-      // },
+      removeTodo(id) {
+      const query = `
+        mutation {
+          removeTodo(id: "${id}")
+        }
+      `
+      fetch('/graphql', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ query })
+      })
+        .then(() => {
+          this.todos = this.todos.filter(t => t.id !== id)
+        })
+        .catch(e => console.log(e)) 
+    },
 
       completeTodo(id) {
         const query = `
@@ -187,7 +199,7 @@
           'Accept': 'application/json'
         },
         body: JSON.stringify({query})
-      })
+        })
         .then(res => res.json())
         .then(res => {
           const index = this.todos.findIndex(item => item.id === id)
