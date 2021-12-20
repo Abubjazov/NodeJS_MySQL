@@ -156,8 +156,8 @@
         body: JSON.stringify({query})
       })
         .then(res => res.json())
-        .then(response => {
-          const todo = response.data.createTodo
+        .then(res => {
+          const todo = res.data.createTodo
           this.todos.push(todo)
           this.todoTitle = ''
         })
@@ -172,20 +172,30 @@
       //   .catch(error => console.log(error))
       // },
 
-      // completeTodo(id) {
-      //   fetch('/api/todo/' + id, {
-      //     method: 'PUT',
-      //     headers: {'Content-Type': 'application/json'},
-      //     body: JSON.stringify({done: true})
-      //   })
-      //   .then(res => res.json())
-      //   .then(({todo}) => {
-      //     const index = this.todos.findIndex(item => item.id === todo.id)
+      completeTodo(id) {
+        const query = `
+        mutation {
+          completeTodo(id: "${id}") {
+            updatedAt
+          }
+        }
+      `
+      fetch('/graphql', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({query})
+      })
+        .then(res => res.json())
+        .then(res => {
+          const index = this.todos.findIndex(item => item.id === id)
 
-      //     this.todos[index].updatedAt = todo.updatedAt
-      //   })
-      //   .catch(error => console.log(error))
-      // }
+          this.todos[index].updatedAt = res.data.completeTodo.updatedAt
+        })
+        .catch(error => console.log(error))
+      }
     },
 
     filters: {
