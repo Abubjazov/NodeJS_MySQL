@@ -9,10 +9,11 @@ module.exports = buildSchema(`
 
     type TestType {
         count: Int!
-        users: [User]!
+        users: [User!]!
     }
 
     type Query {
         test: TestType!
+        random(min: Int!, max: Int!, count: Int!): [Float!]!
     }
 `)
