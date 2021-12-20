@@ -27,5 +27,16 @@ module.exports = {
         }
 
         return arr
+    },
+    addTestUser({ user: { id, email, name } }) {
+        const user = {
+            id,
+            email,
+            name
+        }
+
+        users.push(user)
+
+        return user
     }
 }
