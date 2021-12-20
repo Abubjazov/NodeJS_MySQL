@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const sequelize = require('../utils/dabase').default
+const sequelize = require('../utils/database')
 
 const todo = sequelize.define('Todo', {
     id: {

@@ -1,29 +1,15 @@
 const { buildSchema } = require('graphql')
 
 module.exports = buildSchema(`
-    type User {
-        name: String!
-        id: Int!
-        email: String!
-    }
-
-    type TestType {
-        count: Int!
-        users: [User!]!
+    type Todo {
+        id: ID!
+        done: Boolean!
+        title: String!
+        createdAt: String
+        updatedAt: String
     }
 
     type Query {
-        test: TestType!
-        random(min: Int!, max: Int!, count: Int!): [Float!]!
-    }
-
-    input UserInput {
-        name: String!
-        id: Int!
-        email: String!
-    }
-
-    type Mutation {
-        addTestUser(user: UserInput!): User!
+        getTodos: [Todo!]!
     }
 `)

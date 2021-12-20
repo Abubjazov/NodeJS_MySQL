@@ -17,58 +17,58 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    try {
-        const todo = await Todo.create({
-            title: req.body.title,
-            done: false
-        })
+// router.post('/', async (req, res) => {
+//     try {
+//         const todo = await Todo.create({
+//             title: req.body.title,
+//             done: false
+//         })
 
-        res.status(201).json({ todo })
+//         res.status(201).json({ todo })
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: 'Server: POST method error'
-        })
-    }
-})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: 'Server: POST method error'
+//         })
+//     }
+// })
 
-router.put('/:id', async (req, res) => {
-    try {
-        const todo = await Todo.findByPk(+req.params.id)
+// router.put('/:id', async (req, res) => {
+//     try {
+//         const todo = await Todo.findByPk(+req.params.id)
 
-        todo.done = req.body.done
-        await todo.save()
+//         todo.done = req.body.done
+//         await todo.save()
 
-        res.status(200).json({ todo })
+//         res.status(200).json({ todo })
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: 'Server: PUT method error'
-        })
-    }
-})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: 'Server: PUT method error'
+//         })
+//     }
+// })
 
-router.delete('/:id', async (req, res) => {
-    try {
-        const todos = await Todo.findAll({
-            where: {
-                id: +req.params.id
-            }
-        })
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         const todos = await Todo.findAll({
+//             where: {
+//                 id: +req.params.id
+//             }
+//         })
 
-        await todos[0].destroy()
+//         await todos[0].destroy()
 
-        res.status(204).json({})
+//         res.status(204).json({})
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: 'Server: DELETE method error'
-        })
-    }
-})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: 'Server: DELETE method error'
+//         })
+//     }
+// })
 
-module.exports = router
+// module.exports = router

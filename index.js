@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const { graphqlHTTP } = require('express-graphql')
-const sequelize = require('./utils/dabase')
+const sequelize = require('./utils/database')
 
 const schema = require('./graphql/schema')
 const resolver = require('./graphql/resolver')
