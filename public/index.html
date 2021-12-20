@@ -136,45 +136,56 @@
     methods: {
 
       addTodo() {
-        const title = this.todoTitle.trim()
-        if (!title) {
-          return
+      const title = this.todoTitle.trim()
+      if (!title) {
+        return
+      }
+      const query = `
+        mutation {
+          createTodo(todo: {title: "${title}"}) {
+            id title done createdAt updatedAt
+          }
         }
-        fetch('/api/todo', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({title})
-        })
+      `
+      fetch('/graphql', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({query})
+      })
         .then(res => res.json())
-        .then(({todo}) => {
+        .then(response => {
+          const todo = response.data.createTodo
           this.todos.push(todo)
           this.todoTitle = ''
         })
-        .catch(error => console.log(error))
-      },
+        .catch(e => console.log(e))
+    },
 
-      removeTodo(id) {
-        fetch('/api/todo/' + id, {
-          method: 'DELETE',
-        })
-        .then(() => this.todos = this.todos.filter(t => t.id !== id))
-        .catch(error => console.log(error))
-      },
+      // removeTodo(id) {
+      //   fetch('/api/todo/' + id, {
+      //     method: 'DELETE',
+      //   })
+      //   .then(() => this.todos = this.todos.filter(t => t.id !== id))
+      //   .catch(error => console.log(error))
+      // },
 
-      completeTodo(id) {
-        fetch('/api/todo/' + id, {
-          method: 'PUT',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({done: true})
-        })
-        .then(res => res.json())
-        .then(({todo}) => {
-          const index = this.todos.findIndex(item => item.id === todo.id)
+      // completeTodo(id) {
+      //   fetch('/api/todo/' + id, {
+      //     method: 'PUT',
+      //     headers: {'Content-Type': 'application/json'},
+      //     body: JSON.stringify({done: true})
+      //   })
+      //   .then(res => res.json())
+      //   .then(({todo}) => {
+      //     const index = this.todos.findIndex(item => item.id === todo.id)
 
-          this.todos[index].updatedAt = todo.updatedAt
-        })
-        .catch(error => console.log(error))
-      }
+      //     this.todos[index].updatedAt = todo.updatedAt
+      //   })
+      //   .catch(error => console.log(error))
+      // }
     },
 
     filters: {
